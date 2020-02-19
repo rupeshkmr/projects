@@ -2,7 +2,7 @@
 #include<vector>
 using namespace std;
 
-string s[5] = {"hello","world","imback","howareyou","fine"};
+vector <string> s;
 string e = "Error";
 //linked list to store the hash values and strings
 struct node{
@@ -12,6 +12,14 @@ struct node{
 };
 //Array to store the heads of the lists
 struct node* list[20];
+
+void initTable(){
+  for(int i=0;i<=19;i++){
+    list[i] = (struct node*)malloc(sizeof(struct node));
+    list[i]->hash_val = i;
+    list[i]->next = NULL;
+  }
+}
 //Travesing to the last of linked list
 struct node* traverse(struct node* head){
   while(head->next!=NULL){
@@ -25,6 +33,7 @@ bool search(struct node *head,string s){
   while(head!=NULL){
     if(head->s == s )
       return true;
+    head = head->next;
   }
   return false;
 }
@@ -32,56 +41,62 @@ bool search(struct node *head,string s){
 //Search a string from a list of strings containing 20 strings
 //Hash function
 //compute ascii sum of each alphabet of the string and take remainder modulo 20
-int hashmod20(string s){
+int hashmod20(string s1){
   int asciisum=0;
-  for(int i=0;i<s.length();i++){
-    asciisum += s[i];
+  for(int i=0;i<s1.length();i++){
+    asciisum += s1[i];
   }
   return asciisum%20;
 }
 
 //function to compute and store hashes of the strings
-void createList(string s[]){
-  cout<<"Error";
-  for(int i=0;i<sizeof(s)/sizeof(s[0]);s++ ){
+void createTable(vector <string> s1){
+  for(int i=0;i<s1.size();i++){
+    	int hash = hashmod20(s1[i]);
+	//string is already in the table
+     	if(!search(list[hash],s1[i])){
+		struct node* temp = traverse(list[hash]);
+		struct node* temp1;
+		temp1 = (struct node*)malloc(sizeof(struct node));
+		temp1->s = s1[i];
+		temp1->hash_val = hash;
+		temp1->next = NULL;
+		temp->next = temp1;
 
-    int hash = hashmod20(s[i]);
-    if(list[hash] != NULL){
-      struct node *head = list[hash];
-      bool exists = search(head, s[i]);
-      if(!exists){
-        struct node *last = traverse(head);
-        struct node *temp;
-        temp = (struct node*)malloc(sizeof(struct node));
-        temp->hash_val = hash;
-        temp->s = s[i];
-        temp->next = NULL;
-        last->next = temp;
-      }
-    }
-    else{
-      struct node *head, *temp;
-      head = (struct node*)malloc(sizeof(struct node));
-      temp = (struct node*)malloc(sizeof(struct node));
-      head->hash_val = hash;
-      temp->hash_val = hash;
-      temp->s = s[i];
-      temp->next = NULL;
-      head->next =temp;
-      list[hash] = head;
-    }
+	}
+	cout<<"string "<<s[i]<<" inserted successfully"<<endl;
   }
+
 }
 
-
+void printList(struct node* head){
+	int f= 0;
+	while(head!=NULL){
+		if(f==0){
+			cout<<head->hash_val<<"->\t";
+			f = 1;
+		}
+		else
+			cout<<head->s<<"->\t";
+		head = head->next;
+	}
+	cout<<endl;
+}
+void printTable(){
+	for(int i=0;i<20;i++){
+		printList(list[i]);
+	}
+}
 
 int main(){
-  cout<<e;
-  for(int i=0;i<20;i++)
-    list[i] =NULL;
-  createList(s);
+  string inp[] = {"hello","world","imback","howareyou","fine"};
+  for(int i=0;i<=4;i++)
+	  s.push_back(inp[i]);
+  initTable();
+	
+  createTable(s);
+  printTable();
   cout<<"success";
   cout<<search(list[hashmod20("fine")],"fine")<<endl;
 
-  return 0;
-}
+  return 0;}	
