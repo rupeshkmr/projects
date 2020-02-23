@@ -1,2 +1,6 @@
 !makefile
 competitive_coding/
+*.sqlite3
+__pycache__/
+migrations/
+Procfile

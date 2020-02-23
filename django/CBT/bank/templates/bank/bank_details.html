@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% for obj in object %}
+
+<div class="row"><div class="col col-6">Total Balance: &#8377 {{ obj.amount }}<hr/></div>
+<div class="col col-6">Invested Till Date: &#8377 {{ obj.totalinvested }} <hr/> </div>
+</div>
+{% for bankaccount in object_list %}
+{% if not forloop.first %}
+<div class="row"><div class="col">Name: {{ bankaccount.user }}</div></div>
+<div class="row"><div class="col">Total Investment &#8377 {{ bankaccount.investment }}</div></div>
+<div class="row"><div class="col">Last Investment &#8377 {{ bankaccount.lastcredit }}</div></div>
+<div class="row"><div class="col"> Times Invested {{ bankaccount.investno }}</div></div>
+<div class="row"><div class="col">Invest Or Not  :{%if bankaccount.shouldinvest %}Yes {% else %}No {% endif %}</div></div>
+<div class="row"><div class="col"> Last Investment Date {{ bankaccount.invest_date }}</div></div>
+<div class="row"><div class="col">  {% if bankaccount.loan_date %} Loan  &#8377 {{ bankaccount.loan }} <br/>
+    Loan Date {{ bankaccount.loan_date }}{% endif %}</div></div>
+<div class="row"><div class="col"> Last Debit &#8377 {{ bankaccount.lastdebit }}</div></div>
+<div class="row"><div class="col"> Last Returned &#8377 {{ bankaccount.lastreturn }}</div></div>
+<div class="row"><div class="col"><hr/></div></div>
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+{% endblock %}

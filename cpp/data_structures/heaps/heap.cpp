@@ -58,6 +58,7 @@ void insert_heap(int value,vector <int> &arr,int mode){
 int extract(vector <int> &arr,int mode){
   int ret_val = arr.at(0);
   swap(arr.at(0),arr.at(arr.size()-1));
+    arr.erase(arr.begin()+arr.size()-1);
   heapify(0,arr,mode);
   return ret_val;
 }
