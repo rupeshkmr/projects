@@ -1,6 +1,7 @@
 import math
 import mmh3
 from bitarray import bitarray
+#Referenced from https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
 
 class BloomFilter(object):
     #CLass for Bloom FIlter ,murmur3 hash function
